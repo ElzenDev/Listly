@@ -1,0 +1,123 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+:root{
+    --background : #E9E9E9;
+    --liBackground : #C9C9C9;
+    --inputBackground: #E0E0E0;
+}
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+body{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    background-color: #E9E9E9;
+}
+.app{
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    width: 60vw;
+    margin-top: 5vh;
+    padding-bottom: 2vh;
+    background-color: rgb(221, 221, 221);
+    border-radius: 10px;
+}
+
+#addTaskDiv{
+    background-color: var(--liBackground);
+    padding: 10px;
+    border-radius: 10px;
+
+    width: 90%;
+    box-shadow: 5px 5px 1px rgb(219, 219, 219);
+}
+
+button{
+    width:8%;
+    padding: 10px;
+    background: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    outline: none;
+    
+}
+/*              ICONS               */
+.bi-plus{
+    color: green;
+    background-color: whitesmoke;
+    font-size: 20px;
+    border-radius: 50%;
+    padding: 5px 10px;
+    transition: all 0.5s;
+}
+.bi-plus:hover{
+    color: whitesmoke;
+    background-color: green;
+    padding: 6px 11px;
+}
+.bi-trash-fill{
+    color: black;
+    background-color: whitesmoke;
+    font-size: 20px;
+    border-radius: 50%;
+    padding: 5px 10px;
+    transition: all 0.5s;
+}
+
+.bi-trash-fill:hover{
+    color: whitesmoke;
+    background-color: red;
+    padding: 6px 11px;
+}
+/*            Listed Items          **/
+ol{
+    display: flex;
+    flex-direction: column-reverse;
+    margin-bottom: 20px;
+}
+
+li{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: var(--liBackground);
+    padding: 5px 10px;
+    border-radius: 10px;
+    width: 53vw;
+
+    margin-top: 20px;
+
+    box-shadow: 5px 5px 1px rgb(219, 219, 219);
+}
+
+li>section{
+    width: 100%;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-radius: 10px;
+}
+li>section>input{
+    width: 10%;
+}
+
+#addTaskInput{
+    background-color: var(--inputBackground);
+    border-radius: 10px;
+    padding: 10px;
+    outline: none;
+    border: none;
+    width: 90%;
+    margin-right: 10px;
+}
+
