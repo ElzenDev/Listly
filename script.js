@@ -3,6 +3,43 @@ var btnInsert = document.querySelector("#btnInsert")
 var taskList = document.querySelector("#taskList")
 
 
+const addTaskDiv = document.querySelector('#addTaskDiv')
+const searchDiv = document.querySelector('#searchDiv')
+
+var searchInput = document.querySelector('#searchInput')
+var currentTab = 3
+
+
+
+
+function enableAddTask(){
+    addTaskDiv.style.display = 'block'
+    searchDiv.style.display = 'none'
+    currentTab = 1
+    console.log(currentTab)
+
+}
+function enableSearch(){
+    searchDiv.style.display = 'block'
+    addTaskDiv.style.display = 'none'
+    currentTab = 2
+
+    console.log(currentTab)
+    searchInput.oninput = ()=>{
+        taskList.innerHTML = ''
+        console.log(taskList.innerHTML)
+        tasksDB
+            .filter((task) =>
+                task.text.toLowerCase().includes(searchInput.value.toLowerCase())
+            )
+            .forEach((task) => addTask(task.text, task.status, task.t))
+    }
+}
+
+
+
+
+
 // Like Social Media apps, To DO Lists are made using or based in the CRUD system
 // CRUD (Create, Read, Update, Delete)
 // Create is a simple task, but for the other one we'll need to use Arrays
@@ -27,7 +64,7 @@ var tasksDB = []
 
 //          ** Event Handlers **
 inputArea.addEventListener('keypress', e => {
-    if(e.key == 'ENTER' && inputArea.value != ''){
+    if(e.key == 'Enter' && inputArea.value != ''){
         insertTaskDB()
     }
 })  
@@ -67,7 +104,6 @@ function loadTask(){
 
 
 function addTask(text, status, t){
-    
     const li = document.createElement("li")
 
     li.innerHTML = `

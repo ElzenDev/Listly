@@ -19,47 +19,151 @@ body{
     width: 100%;
     background-color: #E9E9E9;
 }
+.container{
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    width: 100%;
+    height: 100vh;
+    gap: 1fr;
+}
+/*      Left Corner     */
+
+#left-corner{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    width: 100%;background-color: rgb(221, 221, 221);
+
+}
+#left-corner>main{
+    width: 100%;
+}
+
+.btnAddTask{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    width: 90%;
+    margin-left: 10px;
+    color: green;
+    transition: all 0.5s;
+
+    border-radius: 10px;
+    /*background-color: var(--liBackground);
+    */
+    }
+
+.btnAddTask:hover{
+    color: whitesmoke;
+    background-color: green;
+    font-size: 14px;
+}
+
+#left-corner>main>nav{
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+}
+#left-corner>main>nav>.links{
+    color: black;
+    text-decoration: none;
+    font-size: 12px;
+
+    padding: 5px;
+    margin-left: 8px;
+    width: 80%;
+
+    border-radius: 10px;
+    transition: all 0.5s;
+}
+.links:hover{
+    color: green;
+    background-color: rgba(0, 128, 0, 0.432);
+    font-size: 14px;
+}
+
+
+/*               ADD TASK MAIN                    */
+
 .app{
     display: flex;
     flex-direction: column;
-
     align-items: center;
-    width: 60vw;
+    min-width: 60vw;
     margin-top: 5vh;
+
     padding-bottom: 2vh;
-    background-color: rgb(221, 221, 221);
+    
     border-radius: 10px;
 }
-
-#addTaskDiv{
+.inputDivArea{
     background-color: var(--liBackground);
     padding: 10px;
     border-radius: 10px;
+    justify-content: space-between;
 
-    width: 90%;
+    min-width: 85%;
     box-shadow: 5px 5px 1px rgb(219, 219, 219);
+}
+
+/*Tasks configs*/
+
+.config{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 5px;
+}
+.tcButton{
+    font-size: 14px;
+    margin: 0px 5px;
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    align-items: center;
+    width: 15vw;
+
+    
+    padding: 10px 10px;
+
+    background-color: var(--inputBackground);
+    border-radius: 8px;
+    transition: all 0.5s;
+}
+.tcButton>p{
+    margin: 0px 5px;
+}
+.tcButton:hover{
+    background-color: green;
+    color: var(--inputBackground);
+}
+
+#searchDiv{
+    display: none;
 }
 
 button{
     width:8%;
-    padding: 10px;
+    padding: 8px;
     background: transparent;
     border: none;
     outline: none;
     cursor: pointer;
     outline: none;
-    
 }
 /*              ICONS               */
-.bi-plus{
+.pi-anim{
     color: green;
     background-color: whitesmoke;
-    font-size: 20px;
+    font-size: 18px;
     border-radius: 50%;
-    padding: 5px 10px;
+    padding: 4px 8px;
     transition: all 0.5s;
 }
-.bi-plus:hover{
+.pi-anim:hover{
     color: whitesmoke;
     background-color: green;
     padding: 6px 11px;
@@ -78,11 +182,14 @@ button{
     background-color: red;
     padding: 6px 11px;
 }
+
 /*            Listed Items          **/
+
 ol{
     display: flex;
     flex-direction: column-reverse;
     margin-bottom: 20px;
+    width: 80%;
 }
 
 li{
@@ -92,7 +199,7 @@ li{
     background-color: var(--liBackground);
     padding: 5px 10px;
     border-radius: 10px;
-    width: 53vw;
+    width: 100%;
 
     margin-top: 20px;
 
@@ -111,13 +218,12 @@ li>section>input{
     width: 10%;
 }
 
-#addTaskInput{
+.inputArea{
     background-color: var(--inputBackground);
     border-radius: 10px;
     padding: 10px;
     outline: none;
     border: none;
     width: 90%;
-    margin-right: 10px;
 }
 
