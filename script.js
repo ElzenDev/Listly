@@ -7,34 +7,10 @@ const addTaskDiv = document.querySelector('#addTaskDiv')
 const searchDiv = document.querySelector('#searchDiv')
 
 var searchInput = document.querySelector('#searchInput')
-var currentTab = 3
 
 
+   
 
-
-function enableAddTask(){
-    addTaskDiv.style.display = 'block'
-    searchDiv.style.display = 'none'
-    currentTab = 1
-    console.log(currentTab)
-
-}
-function enableSearch(){
-    searchDiv.style.display = 'block'
-    addTaskDiv.style.display = 'none'
-    currentTab = 2
-
-    console.log(currentTab)
-    searchInput.oninput = ()=>{
-        taskList.innerHTML = ''
-        console.log(taskList.innerHTML)
-        tasksDB
-            .filter((task) =>
-                task.text.toLowerCase().includes(searchInput.value.toLowerCase())
-            )
-            .forEach((task) => addTask(task.text, task.status, task.t))
-    }
-}
 
 
 
@@ -62,20 +38,36 @@ function enableSearch(){
 
 var tasksDB = []
 
-//          ** Event Handlers **
-inputArea.addEventListener('keypress', e => {
-    if(e.key == 'Enter' && inputArea.value != ''){
-        insertTaskDB()
-    }
-})  
 
-btnInsert.onclick = () => {
-    if (inputArea.value != '') {
-        insertTaskDB()
+//          ** Event Handlers **
+if(inputArea){
+    inputArea.addEventListener('keypress', e => {
+        if(e.key == 'Enter' && inputArea.value != ''){
+            insertTaskDB()
+        }
+    }) 
+    
+    btnInsert.onclick = () => {
+        if (inputArea.value != '') {
+            insertTaskDB()
+        }
     }
 }
 
-//      ** Inset Task into the DataBase Function **
+if(inputArea == null){
+    searchInput.oninput = ()=>{
+        taskList.innerHTML = ''
+        console.log(taskList.innerHTML)
+        tasksDB
+            .filter((task) =>
+                task.text.toLowerCase().includes(searchInput.value.toLowerCase())
+            )
+            .forEach((task) => addTask(task.text, task.status, task.t, task.date))
+    }
+}
+
+
+//      ** Insert Task into the DataBase Function **
 
 function insertTaskDB(){
     
@@ -83,7 +75,7 @@ function insertTaskDB(){
         alert("você excedeu o limite de 20 Tarefas")
         return
     }
-    tasksDB.push({'text': inputArea.value, 'status': '' })
+    tasksDB.push({'text': inputArea.value, 'status': '' , '_date': new Date(Date.now())})
     updateDB()
 }
 
@@ -92,42 +84,64 @@ function updateDB(){
     loadTask()
 }
 
-function loadTask(){
-    taskList.innerHTML = ''
-    tasksDB = JSON.parse(localStorage.getItem('todolist')) ?? []
-    tasksDB.forEach((task, t) => {
-        addTask(task.text, task.status, t)
-        
-    })
+function loadTask(e){
+    const taskDate = new Date()
+    const day = taskDate.getDate()
+    const month = taskDate.getMonth()
+    const year = taskDate.getYear()
+    if(e == day){
+        taskList.innerHTML = ''
+        tasksDB = JSON.parse(localStorage.getItem('todolist')) ?? []
+        tasksDB.forEach((task, t) => {
+            addTask(task.text, task.status, task._date, t)
+        })
+    }
+    if(e == undefined){
+        taskList.innerHTML = ''
+        tasksDB = JSON.parse(localStorage.getItem('todolist')) ?? []
+        tasksDB.forEach((task, t) => {
+            addTask(task.text, task.status, task._date, t)
+        })
+    }
+    
+   
 
 }
 
 
-function addTask(text, status, t){
-    const li = document.createElement("li")
-
+function addTask(text, status, _date, t){
+    const li = document.createElement(`li`)
+    li.id = _date
     li.innerHTML = `
     <section class="divLi " data-st=${t}> 
-        <input type='checkbox' ${status} data-t=${t} onchange= "done(this, ${t});"/>
+        <label>
+        <input type='checkbox' ${status} data-t=${t} onchange= "done(this, ${t}) ;">
+        <span class='check'><i class="bi bi-check-circle"></i></span>
+        </label>
+        
         <span>${text}</span>
         <button onclick = "removeTask(${t})" data-t=${t} ><i id='dltIcon' class="bi bi-trash-fill btn"></i></button>
     </section>`
     taskList.appendChild(li)
+    li.style.order = t + 1
 
 
     if (status){
         li.style.backgroundColor = 'green'
         li.style.color ='whitesmoke'
+        li.style.order = 0
         
         //document.querySelector(`[data-st="${t}"]`).classList.add('completed')
     }
-    else{
-        li.style.order = tasksDB.length
+    /*else{
         //document.querySelector(`[data-st="${t}"]`).classList.remove('completed')
-
+    }*/
+    if(inputArea){
+        inputArea.value = ''
     }
+    
 
-    inputArea.value = ''
+    return li
 }
 
 
@@ -145,6 +159,16 @@ function done(chk, t){
 
     updateDB()
 
+}
+
+function todayTasks(){
+    inputArea = ''
+    btnInsert = ''
+    todayDate = new Date()
+    today = todayDate.getDate()
+    loadTask(today)
+    return loadTask(today)
+    
 }
 
 

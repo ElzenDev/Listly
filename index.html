@@ -14,13 +14,13 @@
                 <h1>Elzen</h1>
             </header>
             <main>
-                <button class="btnAddTask" onclick="enableAddTask()">
+                <button class="btnAddTask">
                     <i class="bi bi-plus btn pi"></i>
                     <p>Add Task</p>
                 </button>
                 <nav>
-                    <button class="links" onclick="enableSearch()"><p>Search</p></button>
-                    <a href="" class="links"><p>Today</p></a>
+                    <a href="search/search.html" class="links" >Search</a>
+                    <a href="today/today.html" class="links"><p>Today</p></a>
                     <a href="" class="links"><p>Soon...</p></a>
                     <a href="" class="links"><p>Filters & Tags</p></a>
                 </nav>
@@ -31,24 +31,23 @@
 
             <h1>ATL</h1>
             <div id="addTaskDiv" class="inputDivArea">
+
                 <section id="inputDiv">
                     <input type="text" name="addTaskInput" id="addTaskInput" class="inputArea" placeholder="Write Your Task Here" value="">
                     <button id="btnInsert"><i class="bi bi-plus btn pi-anim"></i></button>
                 </section>
+
                 <section class="config">
                     <button id="btnCalendar" class="tcButton"><i class="bi bi-calendar"></i><p class="hidden">Set due date</p></button>
                     <button id="btnAlarm" class="tcButton" ><i class="bi bi-alarm"></i><p class="hidden">Remind me</p></button>
                     <button id="btnRepeat" class="tcButton"><i class="bi bi-repeat"></i><p class="hidden">Repeat</p></button>
                 </section>
+
             </div>
 
-            <section id="searchDiv" class="inputDivArea" >
-                <i class="bi bi-search"></i>
-                <input type="search" name="search" id="searchInput" class="inputArea" placeholder="Search" >
+            
 
-            </section>
-
-            <ol id="taskList">
+            <ol id="taskList" start="0" >
             </ol>
 
            

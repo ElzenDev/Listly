@@ -141,10 +141,6 @@ body{
     color: var(--inputBackground);
 }
 
-#searchDiv{
-    display: none;
-}
-
 button{
     width:8%;
     padding: 8px;
@@ -226,4 +222,28 @@ li>section>input{
     border: none;
     width: 90%;
 }
+
+input[type=checkbox]{
+    display: none;
+}
+.check{
+    display: inline-block;
+    padding: 0 5px; 
+}
+
+.bi-check-circle{
+    color: green;
+    transition: all 0.5s;
+}
+.bi-check-circle:hover{
+    font-size: 20px;
+    cursor: pointer;
+}
+
+input[type=checkbox]:checked + .check > .bi-check-circle{
+    background-color: green;
+    color: whitesmoke;
+}
+
+
 
