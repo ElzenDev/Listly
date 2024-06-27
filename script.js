@@ -70,12 +70,17 @@ if(inputArea == null){
 //      ** Insert Task into the DataBase Function **
 
 function insertTaskDB(){
+    const date = {
+        day: new Date().getDate(),
+        month: new Date().getMonth(),
+        year: new Date().getFullYear(),
+    }
     
     if(tasksDB.length >= 20){
         alert("você excedeu o limite de 20 Tarefas")
         return
     }
-    tasksDB.push({'text': inputArea.value, 'status': '' , '_date': new Date(Date.now())})
+    tasksDB.push({'text': inputArea.value, 'status': '','date': date})
     updateDB()
 }
 
@@ -85,33 +90,23 @@ function updateDB(){
 }
 
 function loadTask(e){
-    const taskDate = new Date()
-    const day = taskDate.getDate()
-    const month = taskDate.getMonth()
-    const year = taskDate.getYear()
-    if(e == day){
-        taskList.innerHTML = ''
-        tasksDB = JSON.parse(localStorage.getItem('todolist')) ?? []
-        tasksDB.forEach((task, t) => {
-            addTask(task.text, task.status, task._date, t)
-        })
-    }
-    if(e == undefined){
-        taskList.innerHTML = ''
-        tasksDB = JSON.parse(localStorage.getItem('todolist')) ?? []
-        tasksDB.forEach((task, t) => {
-            addTask(task.text, task.status, task._date, t)
-        })
-    }
-    
-   
+    taskList.innerHTML = ''
+    tasksDB = JSON.parse(localStorage.getItem('todolist')) ?? []
+    tasksDB.forEach((task, t) => {
+        if(e == task.date.day){
+            addTask(task.text, task.status, task.date, t)
+        }
+        if(e == undefined){
+            addTask(task.text, task.status, task.date, t)
+        }
+        
+    })
 
 }
 
 
-function addTask(text, status, _date, t){
+function addTask(text, status, date, t){
     const li = document.createElement(`li`)
-    li.id = _date
     li.innerHTML = `
     <section class="divLi " data-st=${t}> 
         <label>
@@ -140,8 +135,6 @@ function addTask(text, status, _date, t){
         inputArea.value = ''
     }
     
-
-    return li
 }
 
 
