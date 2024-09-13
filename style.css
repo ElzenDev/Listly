@@ -245,5 +245,48 @@ input[type=checkbox]:checked + .check > .bi-check-circle{
     color: whitesmoke;
 }
 
+/*              Alarm           */
+.alarmConfig{
+    display: none;
+    flex-direction: column;
+    align-items: center;
 
+    padding: 20px;
+    margin: 10px 50vw 10px 10px;
+    border-radius: 10px;
+    width: 40%;
+
+    background-color: var(--inputBackground);
+}
+
+.alarmInput{
+    padding: 10px;
+    width: 100%;
+    max-width: 200px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: transparent;
+    text-align: center;
+
+}
+
+#btnSubmitAlarm{
+    width:40%;
+    padding: 8px;
+    margin: 10px 0px 0px 0px;
+    background: var(--liBackground);
+    border: none;
+    border-radius: 10px;
+    outline: none;
+    cursor: pointer;
+    outline: none;
+    text-align: center;
+    transition: all 0.5s;
+} 
+#btnSubmitAlarm:hover{
+    background-color: green;
+    color: whitesmoke;
+    font-size: 16px;
+
+}
 

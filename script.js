@@ -1,43 +1,24 @@
+//                      VARIABLES
 var inputArea = document.querySelector('#addTaskInput')
-var btnInsert = document.querySelector("#btnInsert")
+const AlarmConfig = document.querySelector(".alarmConfig")
+var alarm
 var taskList = document.querySelector("#taskList")
 
+var btnInsert = document.querySelector("#btnInsert")
+const btnSetAlarm = document.querySelector("#btnAlarm")
 
 const addTaskDiv = document.querySelector('#addTaskDiv')
 const searchDiv = document.querySelector('#searchDiv')
 
+var clientDate
+
 var searchInput = document.querySelector('#searchInput')
-
-
-   
-
-
-
-
-
-
-// Like Social Media apps, To DO Lists are made using or based in the CRUD system
-// CRUD (Create, Read, Update, Delete)
-// Create is a simple task, but for the other one we'll need to use Arrays
-// We use Arrays in order to easily Store multiple values
- 
-/* Fucntions Map :
-  When adding a Task:
-    1. EventHandlers
-    2. insertTaskDB() 
-    3. updateDB() - Update
-    4. loadTaks()
-    5. addTask - Create
-    6. loadTasks()
-
-  When removing / completing a Task:
-    1. removeTask() - Delete / done()
-    2. updateDB() - Update
-    3. loadTasks()
-*/
 
 var tasksDB = []
 
+
+
+//localStorage.clear()
 
 //          ** Event Handlers **
 if(inputArea){
@@ -65,11 +46,32 @@ if(inputArea == null){
             .forEach((task) => addTask(task.text, task.status, task.t, task.date))
     }
 }
+btnSetAlarm.addEventListener('click', () => {
+    if(AlarmConfig.style.display == 'none'){
+        AlarmConfig.style.display = 'flex'
+    } else{
+        AlarmConfig.style.display = 'none'
+    }
+    
+})
+/*              Setting the alarms */
+
+function setAlarm(){
+    AlarmConfig.style.display = 'none'
+    var hasAlarm = true
+    alarm = {
+        date: document.querySelector("#alarmDate").value,
+        time: document.querySelector("#alarmTime").value
+    }
+    insertTaskDB(hasAlarm, alarm)
+    updateAlarm(alarm)
+
+}
 
 
 //      ** Insert Task into the DataBase Function **
 
-function insertTaskDB(){
+function insertTaskDB(hasA, a){
     const date = {
         day: new Date().getDate(),
         month: new Date().getMonth(),
@@ -80,16 +82,30 @@ function insertTaskDB(){
         alert("você excedeu o limite de 20 Tarefas")
         return
     }
-    tasksDB.push({'text': inputArea.value, 'status': '','date': date})
-    updateDB()
+
+    if(hasA = true){
+        tasksDB.push({'text': inputArea.value, 'status': '','date': date, 'alarm': a})
+        updateDB(a)
+    }else{
+        tasksDB.push({'text': inputArea.value, 'status': '','date': date, 'alarm': undefined})
+        updateDB()
+    }
+    
+    
+    
 }
 
-function updateDB(){
+function updateDB(a){
     localStorage.setItem('todolist', JSON.stringify(tasksDB))
-    loadTask()
+    if(a){
+        loadTask(undefined, a) 
+    }else(
+        loadTask()
+    )
+    
 }
 
-function loadTask(e){
+function loadTask(e, a){
     taskList.innerHTML = ''
     tasksDB = JSON.parse(localStorage.getItem('todolist')) ?? []
     tasksDB.forEach((task, t) => {
@@ -101,6 +117,8 @@ function loadTask(e){
         }
         
     })
+    
+    
 
 }
 
@@ -125,12 +143,9 @@ function addTask(text, status, date, t){
         li.style.backgroundColor = 'green'
         li.style.color ='whitesmoke'
         li.style.order = 0
-        
-        //document.querySelector(`[data-st="${t}"]`).classList.add('completed')
+    
     }
-    /*else{
-        //document.querySelector(`[data-st="${t}"]`).classList.remove('completed')
-    }*/
+    
     if(inputArea){
         inputArea.value = ''
     }
@@ -157,12 +172,66 @@ function done(chk, t){
 function todayTasks(){
     inputArea = ''
     btnInsert = ''
-    todayDate = new Date()
-    today = todayDate.getDate()
+    clientDate = new Date()
+    const today = clientDate.getDate()
     loadTask(today)
     return loadTask(today)
+}
+//              **  Alarm Notification  **
+
+
+let permission = Notification.permission
+
+function updateAlarm(){
+    
+    var now = new Date()
+    var nowDate = `${now.getFullYear()}-${now.toLocaleDateString([],{month:"2-digit"})}-${now.getDate()}`
+    var nowTime = now.toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"})
+    if(nowDate == alarm.date && nowTime == alarm.time){
+        notificationPermission(bodyText)
+        return
+    }
+    console.log("travou")
+    setTimeout(updateAlarm, 1000)
+    
     
 }
+
+function notificationPermission(){   
+
+    if(permission == "granted"){
+        showNoti()
+    }
+    else if (permission == "default"){
+        requestAndShowPermission()
+        
+    }else{
+        alert("Aguarde")
+    }
+}
+function showNoti(body){
+    let notiTittle = "TASKZ"
+    let notiBody = "Time To Complete A Task"
+    let noti = new Notification(notiTittle, {body: notiBody})
+    console.log(noti)
+    console.log(permission)
+    
+    noti.onclick = () => {
+        noti.close()
+        window.parent.focus()
+    }
+    
+}
+function requestAndShowPermission(taskText){
+    
+    Notification.requestPermission().then(function(permission){
+        if (permission == "granted"){
+            showNoti(taskText)
+            console.log(permission)
+        }
+    })
+}
+
 
 
 loadTask()
